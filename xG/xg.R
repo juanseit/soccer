@@ -72,18 +72,38 @@ reg1 <- gmae %>%
   summary()
 
 gmae %>%
-  ggplot(mapping = aes(x = Pgmae, y = Gols)) +
-  geom_point(alpha = .6) +
-  geom_abline(slope = 0.34049, intercept = 4.87250) +
-  geom_text(aes(label = Nome, vjust = -1)) +
-  labs( x = "Gols.",
+  ggplot(mapping = aes(x = Sh, y = Pgmae)) +
+  geom_point(aes(size = Gols), color =  "#91c390", alpha = .6) +
+  geom_text_repel(aes(label = Nome), colour = "black") +
+  labs( x = "Finalizações.",
         y = "Porcentagem de gols marcados acima do esperado.",
-        title = "Teste de R quadrado.",
+        title = "Eficiência de finalizações dos jogadores do Brasileirão 2020.",
         subtitle = "Mínimo 25 chutes para ser qualificado.",
         caption = "Data by Infogol.com and Globoesporte.") +
-  theme_bw() +
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
-  ) +
+  theme_539() +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+
+ggsave("pmgae.png", width = 11, height = 8)
+
+reg1 <- gmae %>%
+  lm(Gols ~ Pgmae, data = .) %>%
+  summary()
+
+gmae %>%
+  ggplot(mapping = aes(x = Pgmae, y = Gols)) +
+  geom_point(alpha = .6, size = 4, color = "#91c390") +
+  geom_abline(slope = c(.5,0.75,1,1.25,1.5), intercept = 0, linetype = "dashed", color = "#359fda") +
+  geom_text_repel(aes(label = Nome)) +
+  labs( x = "Gols.",
+        y = "Porcentagem de gols marcados acima do esperado.",
+        title = "Em quanto os melhores finalizadores sobreperformaram os gols marcados.",
+        subtitle = "Mínimo 25 chutes para ser qualificado.",
+        caption = "Data by Infogol.com and Globoesporte.") +
+  theme_539(
+  ) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  xlim(0,15)
+
+ggsave("pmgae_2.png",  width = 11, height = 8)
