@@ -15,58 +15,55 @@ summary(fit_3)
 
 dados %>%
 ggplot(mapping = aes(x = xG, y = GP)) +
-  geom_point() +
-  geom_smooth() +
-  geom_text(mapping = aes(x = xG, y = GP, label = Equipe, vjust = -0.5, nudge_y = 0.5)) +
-  geom_abline(slope = 1.244, intercept = -10.713) +
+  geom_point(color = "#91c390", size =  4) +
+  geom_text_repel(aes(label= Equipe), colour = "black") +
+  stat_smooth(method = "lm", color = "#359fda") +
   labs( x = "Expected Goals.",
         y = "Goals Marcados.",
         title = "Relação entre gols marcados e esperados em 19/20.",
-        caption = "Data by Statsbomb and fbref.com") +
-  theme_bw() +
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
-  ) +
+        subtitle = "Utilizando times da Premier League.",
+        caption = "Gráfico: @juanseit_ | Data by Statsbomb and fbref.com") +
+  theme_539() +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+
+ggsave("xg_1.png", width = 11, height = 8)
 
 #Preditivo
 
 dados %>%
   ggplot(mapping = aes(x = xGt, y = GP)) +
-  geom_point() +
-  geom_smooth() +
-  geom_text(mapping = aes(x = xGt, y = GP, label = Equipe, vjust = -0.5, nudge_y = 0.5)) +
-  geom_abline(slope = 1.396, intercept = -18.781) +
+  geom_point(color = "#91c390", size =  4) +
+  geom_text_repel(aes(label= Equipe), colour = "black") +
+  stat_smooth(method = "lm", color = "#359fda") +
   labs( x = "Expected Goals em 2018/2019.",
         y = "Goals Marcados em 2019/2020.",
         title = "Relação entre os gols esperados em 18/19 e os marcados em 19/20.",
-        caption = "Data by Statsbomb and fbref.com") +
-  theme_bw() +
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
-  ) +
+        subtitle = "Utilizando times da Premier League.",
+        caption = "Gráfico: @juanseit_ | Data by Statsbomb and fbref.com") +
+  theme_539()+
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+
+ggsave("xg_2.png", width = 11, height = 8)
 
 #Reliable
 
 dados %>%
   ggplot(mapping = aes(x = xGt, y = xG)) +
-  geom_point() +
-  geom_smooth() +
-  geom_text(mapping = aes(x = xGt, y = xG, label = Equipe, vjust = -0.5, nudge_y = 0.5)) +
-  geom_abline(slope = 1.064, intercept = -3.916) +
+  geom_point(color = "#91c390", size =  4) +
+  geom_text_repel(aes(label= Equipe), colour = "black") +
+  stat_smooth(method = "lm", color = "#359fda") + 
   labs( x = "Expected Goals em 2018/2019.",
         y = "Expected Goals em 2019/2020.",
         title = "Relação entre os gols esperados em 18/19 e os em 19/20.",
-        caption = "Data by Statsbomb and fbref.com") +
-  theme_bw() +
-  theme(
-    plot.title = element_text(size = 14, hjust = 0.5, face = "bold")
-  ) +
+        subtitle = "Utilizando times da Premier League.",
+        caption = "Gráfico: @juanseit_ | Data by Statsbomb and fbref.com") +
+  theme_539()+
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+
+ggsave("xg_3.png", width = 11, height = 8)
 
 #gmae
 
@@ -90,9 +87,3 @@ gmae %>%
   ) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
-
-
-  
-
-
-  
