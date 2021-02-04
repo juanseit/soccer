@@ -8,20 +8,15 @@ library(ggalt)
 df_538 <- read_csv("https://projects.fivethirtyeight.com/soccer-api/club/spi_matches_latest.csv")
 view(df_538)
 
-foo <- dados_538[,seq(1,ncol(dados_538),2)]
-bar <- dados_538[,seq(2,ncol(dados_538),2)]
-colnames(bar) <- colnames(foo)
-dados_538 <- bind_rows(foo,bar)
-
 home <- df_538 %>%
-  filter(season == 2020, league == "Brasileiro Série A", !is.na(xg2), !is.na(xg1), !is.na(nsxg1), !is.na(nsxg2)) %>%
+  filter(season == 2020, league == "Brasileiro SÃ©rie A", !is.na(xg2), !is.na(xg1), !is.na(nsxg1), !is.na(nsxg2)) %>%
   group_by(team1) %>%
   summarize(xga = mean(xg2), xgf = mean(xg1), nsxga = mean(nsxg2), nsxgf = mean(nsxg1), diff = xgf - xga, jogos = n(), xgf_t = sum(xg1), gt = sum(score1), xga_t = sum(xg2), gat = sum(score2)) %>%
   ungroup() %>%
   arrange(-diff)
 
 away <- df_538 %>%
-  filter(season == 2020, league == "Brasileiro Série A", !is.na(xg2), !is.na(xg1), !is.na(nsxg1), !is.na(nsxg2)) %>%
+  filter(season == 2020, league == "Brasileiro SÃ©rie A", !is.na(xg2), !is.na(xg1), !is.na(nsxg1), !is.na(nsxg2)) %>%
   group_by(team2) %>%
   summarize(xga = mean(xg1), xgf = mean(xg2), nsxga = mean(nsxg1), nsxgf = mean(nsxg2), diff = xgf - xga, jogos = n(), xga_t = sum(xg1), ga_t = sum(score1),xgf_t = sum(xg2), gt = sum(score2)) %>%
   ungroup() %>%
@@ -38,8 +33,8 @@ home %>%
                   family = "URWGeometricW03-Light") +
   labs(x = "Gols esperados a favor por jogo.",
        y = "Gols esperados contra por jogo.",
-       title = "Os mandantes mais eficientes do Brasileirão 2020/21.",
-       caption = "Gráfico: @juanseit_ | Data by FiveThirtyEight.",
+       title = "Os mandantes mais eficientes do BrasileirÃ£o 2020/21.",
+       caption = "GrÃ¡fico: @juanseit_ | Data by FiveThirtyEight.",
        subtitle = "Como ataques e defesas tem performado em termos esperados.") +
   theme_minimal() +
   theme(legend.position = "right", 
@@ -95,8 +90,8 @@ away %>%
                   family = "URWGeometricW03-Light") +
   labs(x = "Gols esperados a favor por jogo.",
        y = "Gols esperados contra por jogo.",
-       title = "Os visitantes mais eficientes do Brasileirão 2020/21.",
-       caption = "Gráfico: @juanseit_ | Data by FiveThirtyEight.",
+       title = "Os visitantes mais eficientes do BrasileirÃ£o 2020/21.",
+       caption = "GrÃ¡fico: @juanseit_ | Data by FiveThirtyEight.",
        subtitle = "Como ataques e defesas tem performado em termos esperados.") +
   theme_minimal() +
   theme(legend.position = "right", 
@@ -146,11 +141,11 @@ home %>%
   geom_dumbbell(size=3, color="gray",
                 colour_x = "#00CCFF", colour_xend = "red",
                 dot_guide=TRUE, dot_guide_size=0.25) +
-  labs(x = "Diferença na soma de Gols e xG.",
+  labs(x = "DiferenÃ§a na soma de Gols e xG.",
        y = "Times.",
-       title = "Sorte e azar: Diferença entre <span style = 'color:#00CCFF;'>xG</span> e <span style = 'color:red;'>gols marcados</span> para os mandantes.",
-       caption = "Gráfico: @juanseit_ | Data by FiveThirtyEight.",
-       subtitle = "Como ataques tem performado em relação ao esperado.") +
+       title = "Sorte e azar: DiferenÃ§a entre <span style = 'color:#00CCFF;'>xG</span> e <span style = 'color:red;'>gols marcados</span> para os mandantes.",
+       caption = "GrÃ¡fico: @juanseit_ | Data by FiveThirtyEight.",
+       subtitle = "Como ataques tem performado em relaÃ§Ã£o ao esperado.") +
   theme_minimal() +
   theme(legend.position = "right", 
         panel.grid.minor = element_blank(),
@@ -198,11 +193,11 @@ away %>%
   geom_dumbbell(size=3, color="gray",
                 colour_x = "#00CCFF", colour_xend = "red",
                 dot_guide=TRUE, dot_guide_size=0.25) +
-  labs(x = "Diferença na soma de Gols e xG.",
+  labs(x = "DiferenÃ§a na soma de Gols e xG.",
        y = "Times.",
-       title = "Sorte e azar: Diferença entre <span style = 'color:#00CCFF;'>xG</span> e <span style = 'color:red;'>gols marcados</span> para os visitantes.",
-       caption = "Gráfico: @juanseit_ | Data by FiveThirtyEight.",
-       subtitle = "Como ataques tem performado em relação ao esperado.") +
+       title = "Sorte e azar: DiferenÃ§a entre <span style = 'color:#00CCFF;'>xG</span> e <span style = 'color:red;'>gols marcados</span> para os visitantes.",
+       caption = "GrÃ¡fico: @juanseit_ | Data by FiveThirtyEight.",
+       subtitle = "Como ataques tem performado em relaÃ§Ã£o ao esperado.") +
   theme_minimal() +
   theme(legend.position = "right", 
         panel.grid.minor = element_blank(),
