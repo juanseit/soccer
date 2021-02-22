@@ -6,7 +6,7 @@ library(ggrepel)
 library(ggalt)
 
 df_538 <- read_csv("https://projects.fivethirtyeight.com/soccer-api/club/spi_matches_latest.csv")
-view(df_538)
+df_spi <- read_csv("https://projects.fivethirtyeight.com/soccer-api/club/spi_global_rankings.csv")
 
 home <- df_538 %>%
   filter(season == 2020, league == "Brasileiro Série A", !is.na(xg2), !is.na(xg1), !is.na(nsxg1), !is.na(nsxg2)) %>%
@@ -22,6 +22,13 @@ away <- df_538 %>%
   ungroup() %>%
   arrange(-diff)
 
+spi_index <- df_spi %>%
+  filter(league == "Brasileiro Série A", !is.na(off), !is.na(def)) %>%
+  group_by(name) %>%
+  summarize(media_off = mean(off), media_def = mean(def), spi = spi) %>%
+  ungroup() %>%
+  arrange(-spi)
+
 #melhores mandantes
 
 home %>%
@@ -36,44 +43,7 @@ home %>%
        title = "Os mandantes mais eficientes do Brasileirão 2020/21.",
        caption = "Gráfico: @juanseit_ | Data by FiveThirtyEight.",
        subtitle = "Como ataques e defesas tem performado em termos esperados.") +
-  theme_minimal() +
-  theme(legend.position = "right", 
-        panel.grid.minor = element_blank(),
-        plot.background = element_rect(fill = "#141622"),
-        panel.background = element_rect(fill = "#141622", 
-                                        colour = "#141622",
-                                        size = 2, 
-                                        linetype = "dashed"),
-        panel.grid.major = element_line(size = 0.5, 
-                                        linetype = 'dashed',
-                                        colour = "gray30"),
-        axis.title.x = element_text(size = 13, 
-                                    face = "bold", 
-                                    colour = "white", 
-                                    family = "Century Gothic"),
-        axis.title.y = element_text(size = 13, 
-                                    face = "bold", 
-                                    colour = "white", 
-                                    family = "Century Gothic"),
-        axis.text.x = element_text(colour = "white"),
-        axis.text.y = element_text(colour = "white"),
-        plot.title = element_markdown(face = "bold", 
-                                      colour = "white", 
-                                      size = 15, 
-                                      family = "Century Gothic"),
-        plot.subtitle = element_text(colour = "white", 
-                                     family = "URWGeometricW03-Light", 
-                                     size = 10),
-        plot.caption = element_text(colour = "white", 
-                                    family = "URWGeometricW03-Light", 
-                                    size = 10),
-        plot.caption.position = "plot",
-        legend.title = element_text(colour = "white", 
-                                    family = "URWGeometricW03-Light", 
-                                    size = 14),
-        legend.text = element_text(colour = "white", 
-                                   family = "URWGeometricW03-Light", 
-                                   size = 14)) +
+  theme_theathletic() +
   scale_y_reverse(breaks = scales::pretty_breaks(n = 10)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
 
@@ -93,44 +63,7 @@ away %>%
        title = "Os visitantes mais eficientes do Brasileirão 2020/21.",
        caption = "Gráfico: @juanseit_ | Data by FiveThirtyEight.",
        subtitle = "Como ataques e defesas tem performado em termos esperados.") +
-  theme_minimal() +
-  theme(legend.position = "right", 
-        panel.grid.minor = element_blank(),
-        plot.background = element_rect(fill = "#141622"),
-        panel.background = element_rect(fill = "#141622", 
-                                        colour = "#141622",
-                                        size = 2, 
-                                        linetype = "dashed"),
-        panel.grid.major = element_line(size = 0.5, 
-                                        linetype = 'dashed',
-                                        colour = "gray30"),
-        axis.title.x = element_text(size = 13, 
-                                    face = "bold", 
-                                    colour = "white", 
-                                    family = "Century Gothic"),
-        axis.title.y = element_text(size = 13, 
-                                    face = "bold", 
-                                    colour = "white", 
-                                    family = "Century Gothic"),
-        axis.text.x = element_text(colour = "white"),
-        axis.text.y = element_text(colour = "white"),
-        plot.title = element_markdown(face = "bold", 
-                                      colour = "white", 
-                                      size = 15, 
-                                      family = "Century Gothic"),
-        plot.subtitle = element_text(colour = "white", 
-                                     family = "URWGeometricW03-Light", 
-                                     size = 10),
-        plot.caption = element_text(colour = "white", 
-                                    family = "URWGeometricW03-Light", 
-                                    size = 10),
-        plot.caption.position = "plot",
-        legend.title = element_text(colour = "white", 
-                                    family = "URWGeometricW03-Light", 
-                                    size = 14),
-        legend.text = element_text(colour = "white", 
-                                   family = "URWGeometricW03-Light", 
-                                   size = 14)) +
+  theme_theathletic() +
   scale_y_reverse(breaks = scales::pretty_breaks(n = 10)) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
   
@@ -146,44 +79,7 @@ home %>%
        title = "Sorte e azar: Diferença entre <span style = 'color:#00CCFF;'>xG</span> e <span style = 'color:red;'>gols marcados</span> para os mandantes.",
        caption = "Gráfico: @juanseit_ | Data by FiveThirtyEight.",
        subtitle = "Como ataques tem performado em relação ao esperado.") +
-  theme_minimal() +
-  theme(legend.position = "right", 
-        panel.grid.minor = element_blank(),
-        plot.background = element_rect(fill = "#141622"),
-        panel.background = element_rect(fill = "#141622", 
-                                        colour = "#141622",
-                                        size = 2, 
-                                        linetype = "dashed"),
-        panel.grid.major = element_line(size = 0.5, 
-                                        linetype = 'dashed',
-                                        colour = "gray30"),
-        axis.title.x = element_text(size = 13, 
-                                    face = "bold", 
-                                    colour = "white", 
-                                    family = "Century Gothic"),
-        axis.title.y = element_text(size = 13, 
-                                    face = "bold", 
-                                    colour = "white", 
-                                    family = "Century Gothic"),
-        axis.text.x = element_text(colour = "white"),
-        axis.text.y = element_text(colour = "white"),
-        plot.title = element_markdown(face = "bold", 
-                                      colour = "white", 
-                                      size = 15, 
-                                      family = "Century Gothic"),
-        plot.subtitle = element_text(colour = "white", 
-                                     family = "URWGeometricW03-Light", 
-                                     size = 10),
-        plot.caption = element_text(colour = "white", 
-                                    family = "URWGeometricW03-Light", 
-                                    size = 10),
-        plot.caption.position = "plot",
-        legend.title = element_text(colour = "white", 
-                                    family = "URWGeometricW03-Light", 
-                                    size = 14),
-        legend.text = element_text(colour = "white", 
-                                   family = "URWGeometricW03-Light", 
-                                   size = 14))  +
+  theme_theathletic() +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
 
 ggsave("diff_mandante.png", height = 12, width = 11, units = "in", dpi = 100)
@@ -198,44 +94,26 @@ away %>%
        title = "Sorte e azar: Diferença entre <span style = 'color:#00CCFF;'>xG</span> e <span style = 'color:red;'>gols marcados</span> para os visitantes.",
        caption = "Gráfico: @juanseit_ | Data by FiveThirtyEight.",
        subtitle = "Como ataques tem performado em relação ao esperado.") +
-  theme_minimal() +
-  theme(legend.position = "right", 
-        panel.grid.minor = element_blank(),
-        plot.background = element_rect(fill = "#141622"),
-        panel.background = element_rect(fill = "#141622", 
-                                        colour = "#141622",
-                                        size = 2, 
-                                        linetype = "dashed"),
-        panel.grid.major = element_line(size = 0.5, 
-                                        linetype = 'dashed',
-                                        colour = "gray30"),
-        axis.title.x = element_text(size = 13, 
-                                    face = "bold", 
-                                    colour = "white", 
-                                    family = "Century Gothic"),
-        axis.title.y = element_text(size = 13, 
-                                    face = "bold", 
-                                    colour = "white", 
-                                    family = "Century Gothic"),
-        axis.text.x = element_text(colour = "white"),
-        axis.text.y = element_text(colour = "white"),
-        plot.title = element_markdown(face = "bold", 
-                                      colour = "white", 
-                                      size = 15, 
-                                      family = "Century Gothic"),
-        plot.subtitle = element_text(colour = "white", 
-                                     family = "URWGeometricW03-Light", 
-                                     size = 10),
-        plot.caption = element_text(colour = "white", 
-                                    family = "URWGeometricW03-Light", 
-                                    size = 10),
-        plot.caption.position = "plot",
-        legend.title = element_text(colour = "white", 
-                                    family = "URWGeometricW03-Light", 
-                                    size = 14),
-        legend.text = element_text(colour = "white", 
-                                   family = "URWGeometricW03-Light", 
-                                   size = 14))  +
+  theme_theathletic()  +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
 
 ggsave("diff_visitante.png", height = 12, width = 11, units = "in", dpi = 100)
+
+spi_index %>%
+  ggplot(mapping = aes(x = media_off, y = media_def)) +
+  geom_point(color = "white", fill = "red", pch = 21, cex = spi_index$spi/ 5) +
+  geom_text_repel(aes(label = name), color = "white") +
+  geom_hline(yintercept = mean(spi_index$media_def), linetype = "dashed", color = "white") +
+  geom_vline(xintercept = mean(spi_index$media_off), linetype = "dashed", color = "white") +
+  labs(title = "Soccer Power Index no Brasileirão 2020/21.",
+       subtitle = "Tamanho do ponto corresponde a nota global.",
+       x = "Index ofensivo.",
+       y = "Index defensivo.",
+       caption = "Gráfico: @juanseit_ | Data by FiveThirtyEight.") +
+  theme_theathletic()+
+  scale_y_reverse(breaks = scales::pretty_breaks(n = 10)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+
+ggsave("spi_br.png", width = 11, height = 9, dpi = 300)
+
+
