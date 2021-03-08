@@ -27,6 +27,7 @@ mandante %>%
   ungroup() %>%
   ggplot(mapping = aes(x = total_xg, y = total_xga)) +
   geom_image(aes(image = mandante$team_logo_wikipedia), asp = 16 / 11) +
+  geom_abline(slope = -1.5, intercept = c(0,.5,1, 1.5,2,2.5,3), alpha = .4, color = "white") +
   labs(x = "xG/Partida.",
        y = "xGA/Partida.",
        title = "Desempenho esperado do Brasileirão 2020/21.",
@@ -58,6 +59,7 @@ mandante_nsxg %>%
   ungroup() %>%
   ggplot(mapping = aes(x = total_nsxg, y = total_nsxga)) +
   geom_image(aes(image = mandante_nsxg$team_logo_wikipedia), asp = 16 / 11) +
+  geom_abline(slope = -1.5, intercept = c(0,.5,1, 1.5,2,2.5,3), alpha = .4, color = "white") +
   labs(x = "NSxG/Partida.",
        y = "NSxGA/Partida.",
        title = "Desempenho esperado do Brasileirão 2020/21.",
