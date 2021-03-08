@@ -2,14 +2,17 @@ library(readxl)
 library(tidyverse)
 library(ggtext)
 library(ggrepel)
+library(ggimage)
 
 df_538 <- read_csv("https://projects.fivethirtyeight.com/soccer-api/club/spi_matches_latest.csv")
+team_logo_brasileiro <- read_xlsx("C:/Users/User/Documents/team_logo_brasileiro.xlsx")
 
 mandante <- df_538 %>%
   filter(season == 2020, league == "Brasileiro Série A", !is.na(xg2), !is.na(xg1)) %>%
   group_by(team1) %>%
   summarize(xg_casa = sum(xg1, na.rm = T), xga_casa = sum(xg2, na.rm = T)) %>%
-  ungroup()
+  ungroup() %>%
+  left_join(team_logo_brasileiro, by = c("team1"))
 
 visitante <- df_538 %>%
   filter(season == 2020, league == "Brasileiro Série A", !is.na(xg2), !is.na(xg1)) %>%
@@ -23,8 +26,7 @@ mandante %>%
   summarize(total_xg = (xg_casa + xg_fora)/38, total_xga = (xga_casa + xga_fora)/38) %>%
   ungroup() %>%
   ggplot(mapping = aes(x = total_xg, y = total_xga)) +
-  geom_point(color = "white", fill = "red", pch = 21, size = 6) +
-  geom_text_repel(aes(label = team1), color = "white") +
+  geom_image(aes(image = mandante$team_logo_wikipedia), asp = 16 / 11) +
   labs(x = "xG/Partida.",
        y = "xGA/Partida.",
        title = "Desempenho esperado do Brasileirão 2020/21.",
@@ -40,7 +42,8 @@ mandante_nsxg <- df_538 %>%
   filter(season == 2020, league == "Brasileiro Série A", !is.na(xg2), !is.na(xg1)) %>%
   group_by(team1) %>%
   summarize(xg_casa = sum(nsxg1, na.rm = T), xga_casa = sum(nsxg2, na.rm = T)) %>%
-  ungroup()
+  ungroup() %>%
+  left_join(team_logo_brasileiro, by = c("team1"))
 
 visitante_nsxg <- df_538 %>%
   filter(season == 2020, league == "Brasileiro Série A", !is.na(xg2), !is.na(xg1)) %>%
@@ -54,8 +57,7 @@ mandante_nsxg %>%
   summarize(total_nsxg = (xg_casa + xg_fora)/38, total_nsxga = (xga_casa + xga_fora)/38) %>%
   ungroup() %>%
   ggplot(mapping = aes(x = total_nsxg, y = total_nsxga)) +
-  geom_point(color = "white", fill = "red", pch = 21, size = 6) +
-  geom_text_repel(aes(label = team1), color = "white") +
+  geom_image(aes(image = mandante_nsxg$team_logo_wikipedia), asp = 16 / 11) +
   labs(x = "NSxG/Partida.",
        y = "NSxGA/Partida.",
        title = "Desempenho esperado do Brasileirão 2020/21.",
