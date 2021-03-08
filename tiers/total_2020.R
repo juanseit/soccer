@@ -59,7 +59,7 @@ mandante_nsxg %>%
   ungroup() %>%
   ggplot(mapping = aes(x = total_nsxg, y = total_nsxga)) +
   geom_image(aes(image = mandante_nsxg$team_logo_wikipedia), asp = 16 / 11) +
-  geom_abline(slope = -1.5, intercept = c(0,.5,1, 1.5,2,2.5,3), alpha = .4, color = "white") +
+  geom_abline(slope = -1.5, intercept = c(0.25,0.75,1.25,1.75), alpha = .4, color = "white") +
   labs(x = "NSxG/Partida.",
        y = "NSxGA/Partida.",
        title = "Desempenho esperado do Brasileirão 2020/21.",
