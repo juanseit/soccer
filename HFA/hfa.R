@@ -8,14 +8,14 @@ options(scipen = 9999)
 df_hfa <- read_csv("https://projects.fivethirtyeight.com/soccer-api/club/spi_matches.csv")
 
 home_2020 <- df_hfa %>%
-  filter(season == 2020, league == "Brasileiro Série A", !is.na(xg2), !is.na(xg1), !is.na(nsxg1), !is.na(nsxg2),!is.na(score1),!is.na(score2)) %>%
+  filter(season == 2020, league == "Brasileiro SÃ©rie A", !is.na(xg2), !is.na(xg1), !is.na(nsxg1), !is.na(nsxg2),!is.na(score1),!is.na(score2)) %>%
   group_by(team1) %>%
   summarize(nsxga_home = sum(nsxg2), nsxgf_home = sum(nsxg1), xgf_home = sum(xg1), gt_home = sum(score1), xga_home = sum(xg2), gat_home = sum(score2),
             diff_score = gt_home - gat_home) %>%
   ungroup()
 
 away_2020 <- df_hfa %>%
-  filter(season == 2020, league == "Brasileiro Série A", !is.na(xg2), !is.na(xg1), !is.na(nsxg1), !is.na(nsxg2),!is.na(score1),!is.na(score2)) %>%
+  filter(season == 2020, league == "Brasileiro SÃ©rie A", !is.na(xg2), !is.na(xg1), !is.na(nsxg1), !is.na(nsxg2),!is.na(score1),!is.na(score2)) %>%
   group_by(team2) %>%
   summarize(nsxga_away = sum(nsxg1), nsxgf_away = sum(nsxg2), xgf_away = sum(xg2), gt_away = sum(score2), xga_away = sum(xg1), gat_way = sum(score1)) %>%
   ungroup()
@@ -26,7 +26,7 @@ total_2020 <- home_2020 %>%
          diff_nsxg_medio = total_nsxgf-total_nsxga)
 
 jogos_2020 <- df_hfa %>%
-  filter(season == 2020, league == "Brasileiro Série A", !is.na(date)) %>%
+  filter(season == 2020, league == "Brasileiro SÃ©rie A", !is.na(date)) %>%
   mutate(game_id = row_number())%>%
   group_by(game_id,team1,team2) %>%
   summarize(diff = score1 - score2, spi_mandante = spi1, spi_visitante = spi2) %>%
@@ -49,9 +49,9 @@ stargazer(reg_hfa,
           type = "html",
           out = "reg_hfa.doc",
           notes = "Feito por Juan Iturvide.",
-          dep.var.labels = c("Diferença entre gols marcados e sofridos."),
+          dep.var.labels = c("DiferenÃ§a entre gols marcados e sofridos."),
           covariate.labels = c("SPI do time.",
-                               "SPI do adversário.",
+                               "SPI do adversÃ¡rio.",
                                "Mando de campo.",
                                "Constante."),
           header = FALSE)
@@ -76,7 +76,7 @@ plot %>%
   geom_image(aes(image=team_logo_wikipedia),size=.035, asp=1) +
   coord_flip() +
   labs(title = "Os melhores mandantes do campeonato brasileiro em 2020.",
-       caption = "Gráfico: Juan Iturvide | Data by FiveThirtyEight.",
+       caption = "GrÃ¡fico: Juan Iturvide | Data by FiveThirtyEight.",
        y = "Vantagem de mando de campo.") +
   theme_bw() +
   theme(panel.grid.minor = element_blank(),
@@ -93,5 +93,3 @@ plot %>%
         legend.text = element_text(size=7,color='gray20'))
 
 ggsave("mando_br20.png", dpi = 300)
-  
-
